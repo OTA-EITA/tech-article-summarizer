@@ -1,0 +1,150 @@
+# Category definitions for automatic classification
+
+categories:
+  frontend:
+    name: "フロントエンド"
+    description: "Webフロントエンド技術"
+    subcategories:
+      react:
+        name: "React"
+        keywords: ["react", "react.js", "reactjs", "hooks", "jsx", "next.js", "nextjs"]
+        tags: ["React", "ReactNative", "Next.js"]
+      vue:
+        name: "Vue.js"
+        keywords: ["vue", "vue.js", "vuejs", "nuxt", "nuxt.js"]
+        tags: ["Vue.js", "Nuxt.js", "Vuex"]
+      angular:
+        name: "Angular"
+        keywords: ["angular", "angularjs"]
+        tags: ["Angular"]
+      general:
+        name: "その他"
+        keywords: ["html", "css", "javascript", "typescript", "webpack", "vite", "sass", "scss"]
+        tags: ["HTML", "CSS", "JavaScript", "TypeScript", "webpack", "Vite"]
+
+  backend:
+    name: "バックエンド"
+    description: "サーバーサイド技術"
+    subcategories:
+      python:
+        name: "Python"
+        keywords: ["python", "django", "flask", "fastapi"]
+        tags: ["Python", "Django", "Flask", "FastAPI"]
+      nodejs:
+        name: "Node.js"
+        keywords: ["node.js", "nodejs", "express", "nestjs"]
+        tags: ["Node.js", "Express", "NestJS"]
+      go:
+        name: "Go"
+        keywords: ["go", "golang", "gin", "echo"]
+        tags: ["Go"]
+      ruby:
+        name: "Ruby"
+        keywords: ["ruby", "rails", "ruby on rails"]
+        tags: ["Ruby", "Rails"]
+      java:
+        name: "Java"
+        keywords: ["java", "spring", "spring boot"]
+        tags: ["Java", "Spring"]
+      php:
+        name: "PHP"
+        keywords: ["php", "laravel", "symfony"]
+        tags: ["PHP", "Laravel"]
+
+  cloud:
+    name: "クラウド"
+    description: "クラウドサービス・インフラ"
+    subcategories:
+      aws:
+        name: "AWS"
+        keywords: ["aws", "amazon web services", "lambda", "ec2", "s3", "cloudformation"]
+        tags: ["AWS", "Lambda", "EC2", "S3"]
+      gcp:
+        name: "Google Cloud"
+        keywords: ["gcp", "google cloud", "firebase", "cloud functions"]
+        tags: ["GCP", "Firebase"]
+      azure:
+        name: "Azure"
+        keywords: ["azure", "microsoft azure"]
+        tags: ["Azure"]
+
+  devops:
+    name: "DevOps"
+    description: "開発運用・CI/CD"
+    subcategories:
+      docker:
+        name: "Docker"
+        keywords: ["docker", "container", "dockerfile"]
+        tags: ["Docker"]
+      kubernetes:
+        name: "Kubernetes"
+        keywords: ["kubernetes", "k8s", "helm"]
+        tags: ["Kubernetes"]
+      cicd:
+        name: "CI/CD"
+        keywords: ["ci/cd", "github actions", "gitlab", "jenkins", "circleci"]
+        tags: ["CI", "GitHubActions", "GitLab"]
+      terraform:
+        name: "Terraform"
+        keywords: ["terraform", "iac", "infrastructure as code"]
+        tags: ["Terraform"]
+
+  database:
+    name: "データベース"
+    description: "データベース技術"
+    subcategories:
+      sql:
+        name: "SQL"
+        keywords: ["mysql", "postgresql", "sql", "sqlite"]
+        tags: ["MySQL", "PostgreSQL", "SQL"]
+      nosql:
+        name: "NoSQL"
+        keywords: ["mongodb", "redis", "dynamodb", "nosql"]
+        tags: ["MongoDB", "Redis", "DynamoDB"]
+
+  ai-ml:
+    name: "AI・機械学習"
+    description: "人工知能・機械学習"
+    subcategories:
+      machine-learning:
+        name: "機械学習"
+        keywords: ["machine learning", "scikit-learn", "ml"]
+        tags: ["MachineLearning", "scikit-learn"]
+      deep-learning:
+        name: "深層学習"
+        keywords: ["deep learning", "tensorflow", "pytorch", "keras"]
+        tags: ["DeepLearning", "TensorFlow", "PyTorch"]
+      llm:
+        name: "大規模言語モデル"
+        keywords: ["llm", "gpt", "claude", "chatgpt", "openai", "anthropic"]
+        tags: ["LLM", "ChatGPT", "OpenAI", "Claude"]
+
+  mobile:
+    name: "モバイル"
+    description: "モバイルアプリ開発"
+    subcategories:
+      ios:
+        name: "iOS"
+        keywords: ["ios", "swift", "swiftui"]
+        tags: ["iOS", "Swift"]
+      android:
+        name: "Android"
+        keywords: ["android", "kotlin"]
+        tags: ["Android", "Kotlin"]
+      flutter:
+        name: "Flutter"
+        keywords: ["flutter", "dart"]
+        tags: ["Flutter"]
+      react-native:
+        name: "React Native"
+        keywords: ["react native", "react-native"]
+        tags: ["ReactNative"]
+
+  other:
+    name: "その他"
+    description: "その他の技術記事"
+    subcategories:
+      general:
+        name: "一般"
+        keywords: []
+        tags: []

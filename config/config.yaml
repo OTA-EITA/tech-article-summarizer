@@ -1,0 +1,29 @@
+# MVP Configuration
+
+# Qiita settings
+qiita:
+  base_url: "https://qiita.com/api/v2"
+  per_page: 20
+  # Fetch articles from last N days
+  days_back: 1
+  # Minimum likes to include
+  min_likes: 10
+  # Query parameters (optional)
+  query: ""
+
+# Claude AI settings
+claude:
+  model: "claude-sonnet-4-20250514"
+  max_tokens: 1000
+  temperature: 0.3
+
+# Output settings
+output:
+  base_dir: "articles"
+  filename_format: "{date}_{source}.md"
+  date_format: "%Y-%m-%d"
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
