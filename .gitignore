@@ -41,10 +41,10 @@ logs/*.log
 .DS_Store
 Thumbs.db
 
-# Database
-*.db
-*.sqlite
-*.sqlite3
+# Database (commented out to track DB in git for GitHub Actions)
+# *.db
+# *.sqlite
+# *.sqlite3
 
 # Temporary files
 tmp/

@@ -1,0 +1,73 @@
+name: Manual Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      days_back:
+        description: 'Number of days to look back'
+        required: false
+        default: '1'
+      min_likes:
+        description: 'Minimum number of likes'
+        required: false
+        default: '10'
+
+jobs:
+  manual-fetch:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Update config with inputs
+        if: ${{ github.event.inputs.days_back != '' || github.event.inputs.min_likes != '' }}
+        run: |
+          python -c "
+          import yaml
+          with open('config/config.yaml', 'r') as f:
+              config = yaml.safe_load(f)
+          config['qiita']['days_back'] = int('${{ github.event.inputs.days_back }}')
+          config['qiita']['min_likes'] = int('${{ github.event.inputs.min_likes }}')
+          with open('config/config.yaml', 'w') as f:
+              yaml.dump(config, f)
+          "
+
+      - name: Run article fetcher
+        env:
+          QIITA_ACCESS_TOKEN: ${{ secrets.QIITA_ACCESS_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python src/main.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          if [[ -n $(git status -s) ]]; then
+            git add articles/ data/
+            git commit -m "Manual run - $(date +'%Y-%m-%d %H:%M')"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: manual-run-logs
+          path: logs/
+          retention-days: 7
