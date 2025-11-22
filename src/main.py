@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 sys.path.insert(0, str(Path(__file__).parent))
 
 from qiita_fetcher import QiitaFetcher
+from zenn_fetcher import ZennFetcher
 from summarizer import ArticleSummarizer
 from markdown_generator import MarkdownGenerator
 from categorizer import ArticleCategorizer
@@ -114,10 +115,10 @@ def main():
         logger.info("Initializing components...")
 
         qiita_config = config.get('qiita', {})
+        zenn_config = config.get('zenn', {})
         claude_config = config.get('claude', {})
         output_config = config.get('output', {})
 
-        fetcher = QiitaFetcher(config=qiita_config)
         summarizer = ArticleSummarizer(config=claude_config)
         categorizer = ArticleCategorizer()
         md_generator = MarkdownGenerator()
@@ -128,16 +129,48 @@ def main():
 
         print("✅ コンポーネント初期化完了\n")
 
-        # Fetch articles
-        logger.info("Fetching articles from Qiita...")
-        print("📡 Qiitaから記事を取得中...\n")
+        # Fetch articles from multiple sources
+        articles = []
 
-        articles = fetcher.fetch_recent_articles(
-            days_back=qiita_config.get('days_back', 1),
-            per_page=qiita_config.get('per_page', 20),
-            min_likes=qiita_config.get('min_likes', 10),
-            query=qiita_config.get('query', '')
-        )
+        # Fetch from Qiita
+        if qiita_config.get('enabled', True):
+            logger.info("Fetching articles from Qiita...")
+            print("📡 Qiitaから記事を取得中...\n")
+
+            qiita_fetcher = QiitaFetcher(config=qiita_config)
+            qiita_articles = qiita_fetcher.fetch_recent_articles(
+                days_back=qiita_config.get('days_back', 1),
+                per_page=qiita_config.get('per_page', 20),
+                min_likes=qiita_config.get('min_likes', 10),
+                query=qiita_config.get('query', '')
+            )
+            articles.extend(qiita_articles)
+            print(f"  Qiita: {len(qiita_articles)}件\n")
+
+        # Fetch from Zenn
+        if zenn_config.get('enabled', True):
+            logger.info("Fetching articles from Zenn...")
+            print("📡 Zennから記事を取得中...\n")
+
+            zenn_fetcher = ZennFetcher(config=zenn_config)
+            zenn_articles = zenn_fetcher.fetch_recent_articles(
+                days_back=zenn_config.get('days_back', 1),
+                max_articles=zenn_config.get('max_articles', 50)
+            )
+            articles.extend(zenn_articles)
+            print(f"  Zenn: {len(zenn_articles)}件\n")
+
+            # Fetch from Zenn topics if specified
+            topics = zenn_config.get('topics', [])
+            if topics:
+                for topic in topics:
+                    topic_articles = zenn_fetcher.fetch_topic_articles(
+                        topic=topic,
+                        days_back=zenn_config.get('days_back', 7),
+                        max_articles=20
+                    )
+                    articles.extend(topic_articles)
+                    print(f"  Zenn ({topic}): {len(topic_articles)}件\n")
 
         if not articles:
             logger.warning("No articles found matching criteria")
@@ -145,7 +178,7 @@ def main():
             db.close()
             return
 
-        print(f"✅ {len(articles)}件の記事を取得しました\n")
+        print(f"✅ 合計 {len(articles)}件の記事を取得しました\n")
 
         # Filter out duplicates
         new_articles = []
